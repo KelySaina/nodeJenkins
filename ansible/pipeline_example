@@ -36,7 +36,7 @@ pipeline {
                     // This stage executes an Ansible playbook
                     def ansibleHome = tool 'ansible'
                     withEnv(["PATH+ANSIBLE=${ansibleHome}/bin"]) {
-                        sh 'ansible-playbook -i ansible/inventory.ini ansible/playbook.yml'
+                        sh 'ansible-playbook -i inventory.ini playbook.yml'
                     }
                 }
             }
@@ -52,7 +52,7 @@ pipeline {
             // This stage executes an Ansible playbook
             def ansibleHome = tool 'ansible'
             withEnv(["PATH+ANSIBLE=${ansibleHome}/bin"]) {
-                sh 'ansible-playbook -i ansible/inventory.ini ansible/get_url.yml'
+                sh 'ansible-playbook -i inventory.ini get_url.yml'
                 
             try{
                 // Get the raw build object

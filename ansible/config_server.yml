@@ -43,7 +43,7 @@
   tasks:
     - name: Copy systemd service file
       template:
-        src: nodejenkins.service.j2
+        src: ../nodejenkins.service.j2
         dest: /etc/systemd/system/nodejenkins.service
 
     - name: Enable the service
@@ -51,4 +51,61 @@
 
     - name: Start the service
       command: systemctl start nodejenkins
+
+- name: Setup database
+  hosts: nodejs_servers
+  become: yes
+  vars:
+    mysql_root_password: k
+    mysql_db_name: employeedb
+    mysql_user_name: thyler
+    mysql_user_password: k
+
+  tasks:
+    - name: Install MySQL Python package
+      apt:
+        name: python3-mysqldb
+      become: yes
+
+    - name: Create Database
+      mysql_db:
+        name: "{{ mysql_db_name }}"
+        login_user: root
+        login_password: "{{ mysql_root_password }}"
+        state: present
+
+    - name: Create MySQL User
+      mysql_user:
+        name: "{{ mysql_user_name }}"
+        password: "{{ mysql_user_password }}"
+        login_user: root
+        login_password: "{{ mysql_root_password }}"
+        priv: "{{ mysql_db_name }}.*:ALL"
+        state: present
+
+    - name: Reload MySQL service
+      service:
+        name: mysql
+        state: reloaded
+    
+    - name: Copy database file
+      synchronize:
+        src: "./gestSalaire.sql"
+        dest: "/home/thyler/nodejenkins/"
+      become: no
+
+    - name: Load SQL file into MySQL
+      command: "mysql -h localhost -u root -p{{ mysql_root_password }} {{ mysql_db_name }} -e 'source /home/thyler/nodejenkins/gestSalaire.sql'"
+      register: migration_result
+      ignore_errors: yes
+
+    - name: Check if migration was successful
+      fail:
+        msg: "Database migration failed. {{ migration_result.stderr }}"
+      when: migration_result.rc != 0
+
+    - name: Reload MySQL service on target server
+      service:
+        name: mysql
+        state: reloaded
 
