@@ -9,6 +9,10 @@ app.use(express.json());
 
 app.use(cors());
 
+app.get("/", (req, res) => {
+    res.send({ msg: "Welcome to nodeJenkins API" })
+})
+
 app.post('/inEmployee', (req, res) => {
     const { name, salaire } = req.body;
 

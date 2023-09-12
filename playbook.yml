@@ -24,6 +24,7 @@
 
     - name: Stop running node process
       command: kill $(pgrep -f "node index.js")
+      ignore_errors: yes
       args:
         chdir: /home/thyler/nodejenkins/nodeJenkins
 
