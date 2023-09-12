@@ -1,0 +1,11 @@
+[Unit]
+Description=Port Forwarding Service
+
+[Service]
+#ExecStart=ssh -R nodejs-jenkins-ks:80:localhost:1060 serveo.net -o StrictHostKeyChecking=no
+ExecStart=ssh -A -R nodejs-jenkins-ks:80:localhost:1060 serveo.net
+Restart=always
+RestartSec=300
+
+[Install]
+WantedBy=default.target
