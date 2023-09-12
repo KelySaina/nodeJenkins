@@ -6,7 +6,7 @@
   tasks:
     - name: Copy application files excluding node_modules
       synchronize:
-        src: "/var/lib/jenkins/workspace/nodejenkins"
+        src: "/var/lib/jenkins/workspace/nodeJenkins"
         dest: "/home/thyler/nodejenkins"
         delete: yes
         recursive: yes
