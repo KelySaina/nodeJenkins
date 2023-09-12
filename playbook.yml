@@ -20,19 +20,19 @@
     - name: Install dependencies
       command: npm install
       args:
-        chdir: /home/thyler/nodejenkins/nodejenkins
+        chdir: /home/thyler/nodejenkins/nodeJenkins
 
     - name: Stop running node process
       command: kill $(pgrep -f "node index.js")
       args:
-        chdir: /home/thyler/nodejenkins/nodejenkins
+        chdir: /home/thyler/nodejenkins/nodeJenkins
 
     - name: Start the application
       command: node index.js
       async: 604800 #the server will run for one week aftereach build
       poll: 0
       args:
-        chdir: /home/thyler/nodejenkins/nodejenkins
+        chdir: /home/thyler/nodejenkins/nodeJenkins
 
     #- name: Start Node.js application in the background
     #  shell: "nohup node index.js > /dev/null 2>&1 &"
