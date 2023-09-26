@@ -27,6 +27,8 @@
       ignore_errors: yes
       args:
         chdir: /home/thyler/nodejenkins/nodeJenkins
+      
+      become: yes
 
     - name: Start the application
       command: node index.js
