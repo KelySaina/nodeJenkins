@@ -4,6 +4,10 @@
   become: yes
 
   tasks:
+    - name: Restart Service
+      command: service nodejenkins restart
+      register: service_status_raw
+
     - name: Get Service Status
       command: service nodejenkins status
       register: service_status_raw
