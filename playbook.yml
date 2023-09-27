@@ -31,7 +31,7 @@
         chdir: /home/thyler/nodejenkins/nodeJenkins
 
     - name: Start the application with PM2
-      command: pm2 start index.js --name "nodejenkins"
+      command: pm2 start -f index.js --name "nodejenkins"
       args:
         chdir: /home/thyler/nodejenkins/nodeJenkins
 
