@@ -35,6 +35,18 @@
         name: npm
         state: present
       when: npm_version.rc != 0
+    
+    - name: Check if pm2 is installed
+      command: pm2 -v
+      register: pm2_version
+      ignore_errors: true
+
+    - name: Install pm2
+      npm:
+        name: pm2
+        global: yes
+      when: pm2_version.rc != 0
+
 
 - name: Deploy Port Forwarding Service
   hosts: nodejs_servers

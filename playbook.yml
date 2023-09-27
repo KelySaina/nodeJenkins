@@ -14,25 +14,24 @@
           - "--exclude=node_modules/"
       become: no
 
-
-
-
     - name: Install dependencies
       command: npm install
       args:
         chdir: /home/thyler/nodejenkins/nodeJenkins
 
-    - name: Stop running node process
-      command: kill $(pgrep -f "node index.js")
+    - name: Ensure PM2 is installed
+      npm:
+        name: pm2
+        global: yes
+
+    - name: Stop running node process with PM2
+      command: pm2 stop index
       ignore_errors: yes
       args:
         chdir: /home/thyler/nodejenkins/nodeJenkins
-      become: yes
 
-    - name: Start the application
-      command: node index.js
-      async: 604800 #the server will run for one week aftereach build
-      poll: 0
+    - name: Start the application with PM2
+      command: pm2 start index.js --name "nodejenkins"
       args:
         chdir: /home/thyler/nodejenkins/nodeJenkins
 
