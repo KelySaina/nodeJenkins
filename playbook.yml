@@ -1,5 +1,5 @@
 ---
-- name: Deploy Your Node.js Application with Nodemon
+- name: Deploy Your Node.js Application
   hosts: nodejs_servers
   become: yes
 
@@ -19,21 +19,18 @@
       args:
         chdir: /home/thyler/nodejenkins/nodeJenkins
 
-    - name: Ensure nodemon is installed
+    - name: Ensure PM2 is installed
       npm:
-        name: nodemon
+        name: pm2
         global: yes
 
-    - name: Stop running node process (if any)
-      shell: pkill -f "node index.js"
-      ignore_errors: yes
+    - name: Start the application with PM2
+      command: pm2 start -f index.js
       args:
         chdir: /home/thyler/nodejenkins/nodeJenkins
 
-    - name: Start the application with nodemon
-      command: nodemon index.js
-      args:
-        chdir: /home/thyler/nodejenkins/nodeJenkins
+    #- name: Start Node.js application in the background
+    #  shell: "nohup node index.js > /dev/null 2>&1 &"
 
 - name: Finished
   hosts: nodejs_servers

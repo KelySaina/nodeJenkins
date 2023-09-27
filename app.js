@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(cors());
 
 app.get("/", (req, res) => {
-    res.send({ msg: "Welcome to nodeJenkins API lastest KelySaina" })
+    res.send({ msg: "Welcome to nodeJenkins API KelySaina" })
 })
 
 app.post('/inEmployee', (req, res) => {
